@@ -7,9 +7,9 @@ It is recommanded to specify folder path more exactly in order not to get very h
 
 import os
 
-files_name_and_size_dict = dict()
+files_name_and_size_dict = dict() # this need to be much more specific path. For example like this : C:/Riot Games/League of Legends
 
-chg_path = r'C:/' # this need to be much more specific path. For example like this : C:/Riot Games/League of Legends
+chg_path = r'C:/Riot Games/League of Legends'
 
 # Check current working directory.
 Folderpath = os.getcwd()
@@ -33,7 +33,13 @@ for path, dirs, files in os.walk(Folderpath):
         """
         file_name = u"\\\\?\\" + file_name # this single line is added to fix the "FileNotFoundError: [WinError 3]". 
 
-        files_name_and_size_dict[file_name] = os.path.getsize(file_name)
+        files_name_and_size_dict[file_name] = int(os.path.getsize(file_name))
+        sorted_dict = dict()
+        sorted_keys = sorted(files_name_and_size_dict, key=files_name_and_size_dict.get, reverse=True)
+
+# Sort dictionary in descending order.
+for w in sorted_keys:
+    sorted_dict[w] = files_name_and_size_dict[w]
 
 """
 When there is a mismatch between the returned values and the number of variables declared to store these values, this error could occurs :
@@ -43,5 +49,5 @@ To fix this error, I referencing this link :
 'https://itsmycode.com/valueerror-too-many-values-to-unpack-expected-2/'
 In the case of dictionary, we should not consider the keys and values in the dictionary as two separate entities in Python.
 """
-for name, size in files_name_and_size_dict.items(): # just use items mehtod of dictionary. The items() function returns a view object which contains both key-value pairs stored as tuples.
+for name, size in sorted_dict.items(): # just use items mehtod of dictionary. The items() function returns a view object which contains both key-value pairs stored as tuples.
     print(f"{name} : {str(size)}")
