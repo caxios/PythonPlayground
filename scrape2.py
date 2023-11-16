@@ -16,7 +16,6 @@ sFlh5c pT0Scc iPVvYb - img tag
 sFlh5c pT0Scc iPVvYb
 """
 def get_image_links(keyword, repeat):
-    global link_lst
     options = webdriver.ChromeOptions()
     options.add_argument("--start-maximized")
     driver = webdriver.Chrome(options=options)
@@ -43,7 +42,7 @@ def create_files(keyword, links):
         print(f"File {filename} created successfully!")
 
 def main():
-    keyword = "<any keyword>"
+    keyword = "장원영"
     repeat = 2
     get_image_links(keyword, repeat)
     #print(lst)
