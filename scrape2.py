@@ -33,7 +33,7 @@ def get_image_links(keyword, repeat):
     return link_lst
 
 def main():
-    keyword = "장원영"
+    keyword = "<any keyword>"
     repeat = 2
     lst = get_image_links(keyword, repeat)
     print(lst)
