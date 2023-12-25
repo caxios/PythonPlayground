@@ -4,7 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 from io import BytesIO
 from google.colab import files
-
+import re
 
 def convert_to_image(img_url, output_format='PNG'):
     # Check if the output format is valid
@@ -14,11 +14,20 @@ def convert_to_image(img_url, output_format='PNG'):
     # Send a get request to the image URL and download the image
     img_data = requests.get(img_url).content
 
+    pattern = r'/([^/]+)/[^/]*$' # regular expression of getting second-to-last part of url(or filepath)
+    pattern_filename = re.search(pattern, img_url)
+
     # open the input file
     try:
         with Image.open(BytesIO(img_data)) as img:
             # generate filename using url
-            filename = ''.join(e for e in os.path.basename(img_url) if e.isalnum()) # since file name cannot use !&* something like this symbols
+            filename = ''.join(e for e in pattern_filename.group() if e.isalnum())
+            """
+            change, this line of code : 
+            # filename = ''.join(e for e in os.path.basename(img_url) if e.isalnum()) # since file name cannot use !&* something like this symbols
+            since, when downloading image, there are so many times filename duplicated. 
+            'basename' function returns last part of filename, and image links of midjourney often time same. 
+            """
             output_file_name = os.path.splitext(filename)[0] + '.' + output_format.lower()
             # output_file_name = filename.split(".")[0] + '.' + output_format.lower()
 
